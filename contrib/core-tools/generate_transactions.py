@@ -14,7 +14,7 @@ import sys
 numShards=2
 
 # FIXME: Path where to write the output files
-path = "/Users/srene/workspace/byzcuit/chainspacecore/ChainSpaceClientConfig/"
+path = "/home/admin/chainspace/chainspacecore/ChainSpaceClientConfig/"
 
 # FIXME: Used to seed output object generator
 # Choose a large number, greater than the input objects generated
