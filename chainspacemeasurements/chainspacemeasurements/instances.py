@@ -335,7 +335,7 @@ class ChainspaceNetwork(object):
         self.ssh_exec(command, CLIENT)
         self._log("Stopping all Chainspace clients.")
 
-    def prepare_transactions(self, num_transactions, shardListPath, directory='/home/sergi/workspace/byzcuit'):
+    def prepare_transactions(self, num_transactions, shardListPath, directory='/home/admin/chainspace'):
         print "Prepare transactions "+str(num_transactions)+" "+directory
         num_shards = str(len(self.shards))
         num_transactions = str(int(num_transactions))
