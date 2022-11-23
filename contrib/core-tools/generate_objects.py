@@ -18,7 +18,7 @@ numObjects=2000
 numShards=5
 
 # FIXME: Path where to write the output files
-path = "/Users/srene/workspace/byzcuit/chainspacecore/ChainSpaceConfig/"
+path = "/home/admin/chainspace/chainspacecore/ChainSpaceConfig/"
 
 def config(newNumObjects, newNumShards, newPath):
 	global numObjects
