@@ -358,8 +358,9 @@ class ChainspaceNetwork(object):
     def generate_objects(self, num_objects):
         num_objects = str(int(num_objects))
         num_shards = str(len(self.shards))
-        self.ssh_exec_in_shards('python chainspace/contrib/core-tools/generate_objects.py ' + num_objects + ' ' + num_shards + ' chainspace/chainspacecore/ChainSpaceConfig/')
-
+        self.ssh_exec_in_shards('python chainspace/contrib/core-tools/generate_objects.py ' + num_objects + ' ' + num_shards + ' /home/admin/chainspace/chainspacecore/ChainSpaceConfig/')
+        #directory not given full.
+        
     def load_objects(self):
         instance = self.clients[0]
         command = 'python -c \'from chainspaceapi import ChainspaceClient; client = ChainspaceClient(); client.load_objects_from_file()\''
