@@ -297,11 +297,11 @@ class ChainspaceNetwork(object):
 
         for i, instances in enumerate(self.shards.values()):
             for j, instance in enumerate(instances):
-                command = self._config_shards_command('chainspace/chainspacecore/ChainSpaceConfig')
-                command += 'printf "shardConfigFile chainspace/chainspacecore/ChainSpaceConfig/shardConfig.txt\nthisShard {0}\nthisReplica {1}\n" > config.txt;'.format(i, j)
+                command = self._config_shards_command('/home/admin/chainspace/chainspacecore/ChainSpaceConfig')
+                command += 'printf "shardConfigFile /home/admin/chainspace/chainspacecore/ChainSpaceConfig/shardConfig.txt\nthisShard {0}\nthisReplica {1}\n" > config.txt;'.format(i, j)
                 command += 'cd ../../../;'
                 command += 'rm -rf config;'
-                command += 'cp -r chainspace/chainspacecore/ChainSpaceConfig/shards/s{0} config;'.format(i)
+                command += 'cp -r /home/admin/chainspace/chainspacecore/ChainSpaceConfig/shards/s{0} config;'.format(i)
                 self._single_ssh_exec(instance, command)
 
     def config_me(self, directory='/home/admin/chainspace/chainspacecore/ChainSpaceClientConfig'):
@@ -321,7 +321,7 @@ class ChainspaceNetwork(object):
         self.ssh_exec_in_clients(self._config_shards_command('/home/admin/chainspace/chainspacecore/ChainSpaceClientConfig'))
 
     def start_clients(self):
-        command = 'cd ~/chainspace/chainspacecore;'
+        command = 'cd /home/admin/chainspace/chainspacecore;'
         command += 'rm screenlog.0;'
         command += 'rm latencylog;'
         command += 'screen -dmS clientservice ./runclientservice.sh;'
@@ -336,7 +336,7 @@ class ChainspaceNetwork(object):
         self._log("Stopping all Chainspace clients.")
 
     def prepare_transactions(self, num_transactions, shardListPath, directory='/home/admin/chainspace'):
-        print "Prepare transactions "+str(num_transactions)+" "+directory
+        print ("Prepare transactions "+str(num_transactions)+" "+directory)
         num_shards = str(len(self.shards))
         num_transactions = str(int(num_transactions))
         os.system('python2 ' + directory + '/contrib/core-tools/generate_transactions.py' + ' ' + num_shards + ' ' + directory + '/chainspacecore/ChainSpaceClientConfig/' + ' ' +shardListPath)
@@ -358,7 +358,7 @@ class ChainspaceNetwork(object):
     def generate_objects(self, num_objects):
         num_objects = str(int(num_objects))
         num_shards = str(len(self.shards))
-        self.ssh_exec_in_shards('python chainspace/contrib/core-tools/generate_objects.py ' + num_objects + ' ' + num_shards + ' /home/admin/chainspace/chainspacecore/ChainSpaceConfig/')
+        self.ssh_exec_in_shards('python /home/admin/chainspace/contrib/core-tools/generate_objects.py ' + num_objects + ' ' + num_shards + ' /home/admin/chainspace/chainspacecore/ChainSpaceConfig/')
         #directory not given full.
         
     def load_objects(self):
