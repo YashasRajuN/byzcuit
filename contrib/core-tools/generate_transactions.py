@@ -231,8 +231,9 @@ def genTransactionFile():
 		inputShards.clear()
 		outputShards.clear()
 
-	for i in range(numShards):
-		print transactionxshardCounter[i]
+	#for i in range(numShards):
+	#	print transactionxshardCounter[i]
+	
 	# Close file
 	outFile.close()
 
