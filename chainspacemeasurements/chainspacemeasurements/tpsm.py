@@ -25,4 +25,4 @@ if __name__ == '__main__':
     try:
         print (tps('simplelog'))
     except Exception:
-        print '0'
+        print ('0')
