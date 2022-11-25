@@ -393,7 +393,7 @@ class TestVote(unittest.TestCase):
         )
 
         # print result
-        print transaction['transaction']['returns']
+        print(transaction['transaction']['returns'])
 
 
         ##
