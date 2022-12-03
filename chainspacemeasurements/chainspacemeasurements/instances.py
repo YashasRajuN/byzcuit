@@ -67,7 +67,9 @@ class ChainspaceNetwork(object):
         self._log_instance(instance, "Initiating SSH connection...")
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(hostname=instance.public_ip_address, username='admin',key_filename='./ec2-keypair.pem')
+        #when using different keypaoirs paramiko exception
+        k = paramiko.RSAKey.from_private_key_file('./ec2-keypair.pem')
+        client.connect(hostname=instance.public_ip_address, username='admin',pkey=k)
         self.ssh_connections[instance] = client
         self._log_instance(instance, "Initiated SSH connection.")
 
