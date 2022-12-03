@@ -150,6 +150,7 @@ class ChainspaceNetwork(object):
 
     def install_deps(self, type):
         self._log("Installing Chainspace dependencies on all nodes...")
+        """
         command = 'export DEBIAN_FRONTEND=noninteractive;'
         command += 'export DEBIAN_PRIORITY=critical;'
         command += 'echo "deb http://ftp.debian.org/debian stretch-backports main" | sudo tee -a /etc/apt/sources.list;'
@@ -158,6 +159,19 @@ class ChainspaceNetwork(object):
         command += '&& sudo -E apt --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -t stretch-backports openjdk-8-jdk'
         command += '&& sudo -E apt --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install git python-pip maven screen psmisc'
         command += '; do :; done'
+        """
+        command = 'sudo apt-get update -y '
+        command += '&& sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade'
+        command += '&& sudo apt-get upgrade -y'
+        command += '&& sudo apt-get install git -y'
+        command += '&& sudo apt-get install pip -y'
+        command += '&& sudo apt-get install python2.7 -y'
+        command += '&& sudo apt-get install screen -y'
+        command += '&& sudo apt-get install psmisc -y'
+        command += '&& sudo apt install default-jre -y'
+        command += '&& sudo apt install default-jdk -y'
+        command += '&& sudo apt install maven -y;'
+        
         self.ssh_exec(command, type)
         self._log("Installed Chainspace dependencies on all nodes.")
 
