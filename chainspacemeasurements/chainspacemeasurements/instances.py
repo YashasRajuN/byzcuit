@@ -299,11 +299,11 @@ class ChainspaceNetwork(object):
 
         for i, instances in enumerate(self.shards.values()):
             for j, instance in enumerate(instances):
-                command = self._config_shards_command('/home/admin/chainspace/chainspacecore/ChainSpaceConfig')
-                command += 'printf "shardConfigFile /home/admin/chainspace/chainspacecore/ChainSpaceConfig/shardConfig.txt\nthisShard {0}\nthisReplica {1}\n" > config.txt;'.format(i, j)
+                command = self._config_shards_command('chainspace/chainspacecore/ChainSpaceConfig')
+                command += 'printf "shardConfigFile chainspace/chainspacecore/ChainSpaceConfig/shardConfig.txt\nthisShard {0}\nthisReplica {1}\n" > config.txt;'.format(i, j)
                 command += 'cd ../../../;'
                 command += 'rm -rf config;'
-                command += 'cp -r /home/admin/chainspace/chainspacecore/ChainSpaceConfig/shards/s{0} config;'.format(i)
+                command += 'cp -r chainspace/chainspacecore/ChainSpaceConfig/shards/s{0} config;'.format(i)
                 self._single_ssh_exec(instance, command)
 
     def config_me(self, directory='/home/admin/chainspace/chainspacecore/ChainSpaceClientConfig'):
@@ -341,7 +341,7 @@ class ChainspaceNetwork(object):
         print ("Prepare transactions "+str(num_transactions)+" "+directory)
         num_shards = str(len(self.shards))
         num_transactions = str(int(num_transactions))
-        os.system('python2 ' + directory + '/contrib/core-tools/generate_transactions.py' + ' ' + num_shards + ' ' + directory + '/chainspacecore/ChainSpaceClientConfig/' + ' ' +shardListPath)
+        os.system('python3 ' + directory + '/contrib/core-tools/generate_transactions.py' + ' ' + num_shards + ' ' + directory + '/chainspacecore/ChainSpaceClientConfig/' + ' ' +shardListPath)
 
         transactions = open(directory + '/chainspacecore/ChainSpaceClientConfig/test_transactions.txt').read().splitlines()
         transactions_per_client = len(transactions) / len(self.clients)
@@ -354,25 +354,25 @@ class ChainspaceNetwork(object):
             self._single_ssh_exec(client, command)
 
     def send_transactions(self, batch_size, batch_sleep):
-        command = 'python -c \'from chainspaceapi import ChainspaceClient; client = ChainspaceClient(); client.send_transactions_from_file({0}, {1})\''.format(batch_size, batch_sleep)
+        command = 'python3 -c \'from chainspaceapi import ChainspaceClient; client = ChainspaceClient(); client.send_transactions_from_file({0}, {1})\''.format(batch_size, batch_sleep)
         self.ssh_exec_in_clients(command)
 
     def generate_objects(self, num_objects):
         num_objects = str(int(num_objects))
         num_shards = str(len(self.shards))
-        self.ssh_exec_in_shards('python /home/admin/chainspace/contrib/core-tools/generate_objects.py ' + num_objects + ' ' + num_shards + ' /home/admin/chainspace/chainspacecore/ChainSpaceConfig/')
+        self.ssh_exec_in_shards('python3 /home/admin/chainspace/contrib/core-tools/generate_objects.py ' + num_objects + ' ' + num_shards + ' /home/admin/chainspace/chainspacecore/ChainSpaceConfig/')
         #directory not given full.
         
     def load_objects(self):
         instance = self.clients[0]
-        command = 'python -c \'from chainspaceapi import ChainspaceClient; client = ChainspaceClient(); client.load_objects_from_file()\''
+        command = 'python3 -c \'from chainspaceapi import ChainspaceClient; client = ChainspaceClient(); client.load_objects_from_file()\''
         self._single_ssh_exec(instance, command)
 
     def get_tps_set(self):
         tps_set = []
         for shard in self.shards.itervalues():
             instance = shard[0]
-            tps = self._single_ssh_exec(instance, 'python /home/admin/chainspace/chainspacemeasurements/chainspacemeasurements/tps.py')[1]
+            tps = self._single_ssh_exec(instance, 'python3 /home/admin/chainspace/chainspacemeasurements/chainspacemeasurements/tps.py')[1]
             #crt path
             tps = float(tps.strip())
             tps_set.append(tps)
@@ -385,7 +385,7 @@ class ChainspaceNetwork(object):
         for shard in self.shards.itervalues():
             self._log("shard")
             instance = shard[0]
-            tps = self._single_ssh_exec(instance, 'python chainspace/chainspacemeasurements/chainspacemeasurements/tpsm.py')[1]
+            tps = self._single_ssh_exec(instance, 'python3 chainspace/chainspacemeasurements/chainspacemeasurements/tpsm.py')[1]
             #print "Get TPS "+tps
             tps = float(tps.strip())
             #print "Get TPS "+str(tps)
