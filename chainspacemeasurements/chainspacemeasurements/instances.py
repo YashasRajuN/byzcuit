@@ -370,7 +370,8 @@ class ChainspaceNetwork(object):
 
     def get_tps_set(self):
         tps_set = []
-        for shard in self.shards.itervalues():
+        #to resolve attribeute error converting to values()
+        for shard in self.shards.values():
             instance = shard[0]
             tps = self._single_ssh_exec(instance, 'python3 /home/admin/chainspace/chainspacemeasurements/chainspacemeasurements/tps.py')[1]
             #crt path
@@ -382,7 +383,7 @@ class ChainspaceNetwork(object):
     def get_tpsm_set(self):
         tps_set = []
         self._log("tps")
-        for shard in self.shards.itervalues():
+        for shard in self.shards.values():
             self._log("shard")
             instance = shard[0]
             tps = self._single_ssh_exec(instance, 'python3 chainspace/chainspacemeasurements/chainspacemeasurements/tpsm.py')[1]
